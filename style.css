@@ -76,8 +76,22 @@ h6 {
 }
 
 /*CSS reset*/
+
+
 html,body{
     height: 100%;
+}
+
+.bg{
+    z-index: 0;
+}
+
+.hotspot{
+    z-index: 1;
+}
+
+.popup{
+    z-index: 2;
 }
 
 body{
@@ -92,11 +106,12 @@ body{
     bottom:0;
     left:0;
     display: grid;
-    grid-template-columns: repeat(48, 1fr);
-    grid-template-rows: repeat(27, 1fr);
+    grid-template-columns: repeat(48, minmax(0, 1fr));
+    grid-template-rows: repeat(27, minmax(0, 1fr));
     grid-column-gap: 0px;
     grid-row-gap: 0px;
     width: 100%;
+    aspect-ratio: 16 / 6;
     background-color: red;
 }
 
@@ -106,32 +121,76 @@ body{
 }
 
 .hotspot{
-    place-self: center;
+    place-self: stretch;
     width: 100%;
 
 }
 
 #spot-drink{
-    grid-column: 19; grid-row:14;
+    grid-column: 19;
+    grid-row:14;
+}
+
+.hotspot img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /*claude*/
 }
 
 .popup{
-    grid-area: 1 / 1 / -1 / -1;
+    position: fixed;
+    inset: 0;
     display: grid;
-    grid-template-columns: subgrid;
-    grid-template-rows: subgrid;
-    opacity: 0;
+    grid-template-columns: repeat(48, minmax(0, 1fr));
+    grid-template-rows: repeat(27, minmax(0, 1fr));
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    z-index: 10;
     visibility: hidden;
     pointer-events: none; /*claude help*/
     transition: opacity .3s, visibility .3s;
 }
 
 .stock {
-    grid-column: 9 / 16;
-    grid-row: 6 / 24;
+    grid-column: 8 / 13;
+    grid-row: 7 / 21;
     width: 100%;
     transform: translateY(30x) rotate(-8deg);
-    transition: transofrm .4s ease-out;
+    transition: transform .4s ease-out;
+    background-color: darkgray;
 }
 
+.infoCard{
+    grid-column: 29/ 42;
+    grid-row: 5 / 24;
+    position: relative;
+    z-index: 1;
+    pointer-events: auto;
+    transform: translateY(30px) rotate(4deg);
+    transition: transform .4s ease-out;
+    background-color: brown;
+}
 
+.x{
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    z-index: 2;
+    padding: .5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+#drink:checked ~ #pop-drink {
+    opacity: 1;
+    visibility: visible;
+}
+
+#drink:checked ~ #pop-drink .stock{
+    transform: translateY(0) rotate(-8deg);
+}
+
+#drink:checked ~ #pop-drink .infoCard{
+    transform: translateY(0) rotate(4deg);
+}
