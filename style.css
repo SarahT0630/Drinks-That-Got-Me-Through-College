@@ -88,7 +88,9 @@ body{
 }
 
 .scene{
-    margin-top: auto;
+    position: fixed;
+    bottom:0;
+    left:0;
     display: grid;
     grid-template-columns: repeat(48, 1fr);
     grid-template-rows: repeat(27, 1fr);
